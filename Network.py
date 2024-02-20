@@ -43,7 +43,7 @@ class MyTopo(Topo):
 def runNetwork():
     # Create a network with a remote controller
     net = Mininet(
-        topo=topo,
+        topo=MyTopo(),
         switch=OVSKernelSwitch,
         build=False,
         autoSetMacs=True,
