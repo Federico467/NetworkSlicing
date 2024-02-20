@@ -14,6 +14,9 @@ class MyTopo(Topo):
     def __init__(self):
         Topo.__init__(self)
 
+        linkSwitches=dict(bw=10)
+        linkHosts=dict(bw=1000)
+
         # Create a topology with 5 switches and 7 hosts
         for i in range(1, 8):
             self.addHost('h%s' % (i+1))
@@ -23,22 +26,22 @@ class MyTopo(Topo):
             self.addSwitch('s%d' % (i + 1), **sconfig)
         
         # Add links, hosts to switches have infinite bandwith
-        self.addLink('h1', 's1', bw=1000)
-        self.addLink('h2', 's2', bw=1000)
-        self.addLink('h3', 's3', bw=1000)
-        self.addLink('h4', 's4', bw=1000)
-        self.addLink('h5', 's4', bw=1000)
-        self.addLink('h6', 's5', bw=1000)
-        self.addLink('h7', 's5', bw=1000)
+        self.addLink('h1', 's1', **linkHosts)
+        self.addLink('h2', 's2', **linkHosts)
+        self.addLink('h3', 's3', **linkHosts)
+        self.addLink('h4', 's4', **linkHosts)
+        self.addLink('h5', 's4', **linkHosts)
+        self.addLink('h6', 's5', **linkHosts)
+        self.addLink('h7', 's5', **linkHosts)
 
         # Add links between switches
-        self.addLink('s1', 's2', bw=3)
-        self.addLink('s2', 's3', bw=3)
-        self.addLink('s3', 's4', bw=5)
-        self.addLink('s4', 's5', bw=1)
-        self.addLink('s5', 's1', bw=2)
-        self.addLink('s5', 's2', bw=5)
-        self.addLink('s4', 's1', bw=4)
+        self.addLink('s1', 's2', **linkSwitches)
+        self.addLink('s2', 's3', **linkSwitches)
+        self.addLink('s3', 's4', **linkSwitches)
+        self.addLink('s4', 's5', **linkSwitches)
+        self.addLink('s5', 's1', **linkSwitches)
+        self.addLink('s5', 's2', **linkSwitches)
+        self.addLink('s4', 's1', **linkSwitches)
 
 def runNetwork():
     # Create a network with a remote controller
