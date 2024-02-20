@@ -33,20 +33,10 @@ class NetworkSlicing(app_manager.RyuApp):
                                           ofproto.OFPCML_NO_BUFFER)]
         self.add_flow(datapath, 0, match, actions)
 
-    def add_flow(self, datapath, priority, match, actions):
-        ofproto = datapath.ofproto
-        parser = datapath.ofproto_parser
-        
-        # Construct flow_mod message and send it.
-
-        inst = [parser.OFPInstructionActions(ofproto.OFPIT_APPLY_ACTIONS,
-                                             actions)]
-        mod = parser.OFPFlowMod(datapath=datapath, priority=priority,
-                                match=match, instructions=inst)
-        datapath.send_msg(mod)
 
 
-    def _send_package(self, msg, datapath, in_port, actions):
+
+    def send_packet(self, datapath, in_port, actions, msg):
         data = None
         ofproto = datapath.ofproto
         parser = datapath.ofproto_parser
@@ -64,7 +54,17 @@ class NetworkSlicing(app_manager.RyuApp):
 
 
 
-    
+    def add_flow(self, datapath, priority, match, actions):
+        ofproto = datapath.ofproto
+        parser = datapath.ofproto_parser
+        
+        # Construct flow_mod message and send it.
+
+        inst = [parser.OFPInstructionActions(ofproto.OFPIT_APPLY_ACTIONS,
+                                             actions)]
+        mod = parser.OFPFlowMod(datapath=datapath, priority=priority,
+                                match=match, instructions=inst)
+        datapath.send_msg(mod)
 
     @set_ev_cls(ofp_event.EventOFPPacketIn, MAIN_DISPATCHER)
     def _packet_in_handler(self, ev):
@@ -80,7 +80,7 @@ class NetworkSlicing(app_manager.RyuApp):
         match = parser.OFPMatch(in_port=in_port)
 
         self.add_flow(datapath, 1, match, actions)  # Add flow entry to the switch
-        self._send_package(msg, datapath, in_port, actions) # Send the packet out to the switch
+        self.send_packet(datapath, in_port, actions, msg) # Send the packet out to the switch
 
 
 
