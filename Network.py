@@ -14,15 +14,13 @@ class MyTopo(Topo):
     def __init__(self):
         Topo.__init__(self)
 
-        # # Create a topology with 5 switches and 7 hosts
-        # # Add hosts and switches
+        # Create a topology with 5 switches and 7 hosts
         for i in range(1, 8):
-            h = self.addHost('h%s' % (i+1))
-        
+            self.addHost('h%s' % (i+1))
 
         for i in range(1, 6):
             sconfig = {"dpid": "%016x" % (i + 1)}
-            s = self.addSwitch('s%d' % (i + 1), **sconfig)
+            self.addSwitch('s%d' % (i + 1), **sconfig)
         
         # Add links, hosts to switches have infinite bandwith
         self.addLink('h1', 's1', bw=1000)
@@ -45,13 +43,13 @@ class MyTopo(Topo):
 def runNetwork():
     # Create a network with a remote controller
     net = Mininet(
-        topo=MyTopo(), 
-        link=TCLink,
-        controller=RemoteController, #da controllare ordine paramentri
+        topo=topo,
         switch=OVSKernelSwitch,
         build=False,
         autoSetMacs=True,
-        autoStaticArp=True,)
+        autoStaticArp=True,
+        link=TCLink,
+    )
     net.addController('c0', controller=RemoteController, ip="127.0.0.1", port=6633)
     net.build()
     net.start()
@@ -62,3 +60,4 @@ def runNetwork():
 if __name__ == '__main__':
     setLogLevel('info') # set Mininet log level
     runNetwork()
+
