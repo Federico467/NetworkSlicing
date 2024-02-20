@@ -62,4 +62,3 @@ def runNetwork():
 if __name__ == '__main__':
     setLogLevel('info') # set Mininet log level
     runNetwork()
-```

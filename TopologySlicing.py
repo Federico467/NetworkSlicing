@@ -1,6 +1,6 @@
 
 
-from ryu,base import app_manager
+from ryu.base import app_manager
 from ryu.controller import ofp_event
 from ryu.controller.handler import CONFIG_DISPATCHER, MAIN_DISPATCHER
 from ryu.controller.handler import set_ev_cls
@@ -13,7 +13,7 @@ class NetworkSlicing(app_manager.RyuApp):
         super(NetworkSlicing, self).__init__(*args, **kwargs)
 
         # Define the port to port mapping
-      self.portToPortSlicing = {
+        self.portToPortSlicing = {
             1: {1: 2, 2: 1, 4: 3, 3: 4},
             2: {2: 1, 1: 2, 1: 3, 3: 1},
             3: {1: 2, 2: 1},
@@ -84,6 +84,6 @@ class NetworkSlicing(app_manager.RyuApp):
 
 
 
-```
+
 
 # Path: NetworkSlicing.py
