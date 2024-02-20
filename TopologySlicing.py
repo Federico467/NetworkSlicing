@@ -14,10 +14,11 @@ class NetworkSlicing(app_manager.RyuApp):
 
         # Define the port to port mapping
         self.portToPortSlicing = {
-            1: {1: 3, 3: 1, 2: 4, 4: 2},
-            4: {1: 3, 3: 1, 2: 4, 4: 2},
-            2: {1: 2, 2: 1},
-            3: {1: 2, 2: 1},
+            1: {1: 2, 2: 1, 4: 3, 3: 4},
+            2: {2: 1, 1: 2, 1: 3, 3: 1},
+            3: {2: 1, 1: 2},
+            4: {1: 5, 5: 1, 2: 3, 3: 2},
+            5: {2: 5, 5: 2, 1: 4, 4: 1}
         }
 
     @set_ev_cls(ofp_event.EventOFPSwitchFeatures, CONFIG_DISPATCHER)
