@@ -14,13 +14,12 @@ class MyTopo(Topo):
     def __init__(self):
         Topo.__init__(self)
 
-        linkSwitches=dict(bw=10)
-        linkHosts=dict(bw=1000)
-        hconfig = {'inNamespace':True}
+        linkSwitches={}
+        linkHosts={}
 
         # Create a topology with 5 switches and 7 hosts
         for i in range(0, 7):
-            self.addHost('h%s' % (i+1), **hconfig)
+            self.addHost('h%d' % (i+1))
 
         for i in range(0, 5):
             sconfig = {"dpid": "%016x" % (i + 1)}
