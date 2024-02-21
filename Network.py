@@ -18,10 +18,10 @@ class MyTopo(Topo):
         linkHosts={}
 
         # Create a topology with 5 switches and 7 hosts
-        for i in range(0, 7):
-            self.addHost('h%d' % (i+1))
+        for i in range(7):
+            self.addHost('h%d' % (i + 1))
 
-        for i in range(0, 5):
+        for i in range(5):
             sconfig = {"dpid": "%016x" % (i + 1)}
             self.addSwitch('s%d' % (i + 1), **sconfig)
 

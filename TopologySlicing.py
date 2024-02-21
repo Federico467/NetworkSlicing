@@ -75,7 +75,13 @@ class NetworkSlicing(app_manager.RyuApp):
         in_port = msg.match['in_port']
         dpid = datapath.id
 
-        out_port = self.portToPortSlicing[dpid][in_port]
+        if dpid in self.portToPortSlicing and in_port in self.portToPortSlicing[dpid]:
+        # do something with self.portToPortSlicing[dpid][in_port]
+            out_port = self.portToPortSlicing[dpid][in_port]
+            print("dpid:", dpid)
+            print("in_port:", in_port)
+            print("out_port:", out_port)
+
         actions = [parser.OFPActionOutput(out_port)]
         match = parser.OFPMatch(in_port=in_port)
 
