@@ -75,17 +75,21 @@ class NetworkSlicing(app_manager.RyuApp):
         in_port = msg.match['in_port']
         dpid = datapath.id
 
-        #this is to prevent ariving strange packets with an invalid dpid
-        out_port = 999
-        if in_port in self.portToPortSlicing[dpid]:
+        eth=packet.Packet(msg.data).get_protocol(ethernet.ethernet)
+        if eth.ethertype == ether_types.ETH_TYPE_LLDP:
+            # ignore lldp packet
+            return
+        #this discards packets arriving from different flows
+       # out_port = 999
+       # if dpid in self.portToPortSlicing and in_port in self.portToPortSlicing[dpid]:
         # do something with self.portToPortSlicing[dpid][in_port]
-            out_port = self.portToPortSlicing[dpid][in_port]
+        out_port = self.portToPortSlicing[dpid][in_port]
            # print("dpid:", dpid)
            # print("in_port:", in_port)
            # print("out_port:", out_port)
 
-        if out_port == 999:
-            return
+        #if out_port == 999:
+       #     return
         actions = [parser.OFPActionOutput(out_port)]
         match = parser.OFPMatch(in_port=in_port)
 
