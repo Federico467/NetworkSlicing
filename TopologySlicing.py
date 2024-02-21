@@ -5,6 +5,9 @@ from ryu.controller import ofp_event
 from ryu.controller.handler import CONFIG_DISPATCHER, MAIN_DISPATCHER
 from ryu.controller.handler import set_ev_cls
 from ryu.ofproto import ofproto_v1_3
+from ryu.lib.packet import ethernet
+from ryu.lib.packet import ether_types
+from ryu.lib.packet import packet
 
 class NetworkSlicing(app_manager.RyuApp):
     OFP_VERSIONS = [ofproto_v1_3.OFP_VERSION]
@@ -75,23 +78,23 @@ class NetworkSlicing(app_manager.RyuApp):
         in_port = msg.match['in_port']
         dpid = datapath.id
 
-        pkt = packet.Packet(msg.data)
-        eth = pkt.get_protocol(ethernet.ethernet)
-        
+        '''
+        eth = packet.Packet(msg.data).get_protocol(ethernet.ethernet)
         if eth.ethertype == ether_types.ETH_TYPE_LLDP:
             # ignore lldp packet
             return
+        '''   
+
         #this discards packets arriving from different flows
-       # out_port = 999
-       # if dpid in self.portToPortSlicing and in_port in self.portToPortSlicing[dpid]:
-        # do something with self.portToPortSlicing[dpid][in_port]
-        out_port = self.portToPortSlicing[dpid][in_port]
+        out_port = 999
+        if dpid in self.portToPortSlicing and in_port in self.portToPortSlicing[dpid]:
+            out_port = self.portToPortSlicing[dpid][in_port]
            # print("dpid:", dpid)
            # print("in_port:", in_port)
            # print("out_port:", out_port)
+        if out_port == 999:
+            return
 
-        #if out_port == 999:
-       #     return
         actions = [parser.OFPActionOutput(out_port)]
         match = parser.OFPMatch(in_port=in_port)
 
