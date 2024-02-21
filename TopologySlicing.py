@@ -75,6 +75,8 @@ class NetworkSlicing(app_manager.RyuApp):
         in_port = msg.match['in_port']
         dpid = datapath.id
 
+        out_port = 1
+
         if dpid in self.portToPortSlicing and in_port in self.portToPortSlicing[dpid]:
         # do something with self.portToPortSlicing[dpid][in_port]
             out_port = self.portToPortSlicing[dpid][in_port]
