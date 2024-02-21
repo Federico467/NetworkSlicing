@@ -77,7 +77,7 @@ class NetworkSlicing(app_manager.RyuApp):
 
         #this is to prevent ariving strange packets with an invalid dpid
         out_port = 999
-        if dpid in self.portToPortSlicing:
+        if in_port in self.portToPortSlicing[dpid]:
         # do something with self.portToPortSlicing[dpid][in_port]
             out_port = self.portToPortSlicing[dpid][in_port]
            # print("dpid:", dpid)
