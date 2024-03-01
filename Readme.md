@@ -31,17 +31,27 @@ The network is composed of 5 switches and 8 hosts, with the following topology:
 
 <img src="images/DefaultScenario.jpg" alt="width" style="width:80%;" /> 
 
+
+
 # Scenario 2 - Lower
 
 <img src="images/Lower.jpg" alt="width" style="width:80%;" /> 
+
+
+
 
 # Scenario 3 - Upper
 
 <img src="images/Upper.jpg" alt="width" style="width:80%;" /> 
 
+
+
+
 # Scenario 4 - Other
 
 <img src="images/Other.jpg" alt="width" style="width:80%;" /> 
+
+
 
 
 
@@ -52,7 +62,9 @@ The network is composed of 5 switches and 8 hosts, with the following topology:
 1. follow the instruction here to install mininet on a virtual machine: https://www.granelli-lab.org/researches/relevant-projects/comnetsemu-labs
 2. Clone the repository in the virtual machine:
 ```bash
-git clone
+git clone https://github.com/Federico467/Networking_2_Project
+```
+
 
 
 
@@ -60,6 +72,25 @@ git clone
 
 
 To run this demo, follow these steps:
+
+1. go to the Networking_2_Project folder and start first the controller and then the network:
+```bash
+cd Networking_2_Project
+ryu-manager controllerSlicing.py
+sudo python3 Network.py
+```
+2. Open a new terminal and go to the Networking_2_Project/scripts folder:
+```bash
+cd Networking_2_Project/scripts
+```
+3. Now you can run the bash scripts to activate and deactivate the network slices. For example, to activate the default scenario run:
+```bash
+./Default.sh
+```
+4. To deactivate the network slices run:
+```bash
+./reset.sh
+```
 
 
 # Other resources
