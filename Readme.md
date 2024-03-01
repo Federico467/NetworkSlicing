@@ -47,19 +47,12 @@ The network is composed of 5 switches and 8 hosts, with the following topology:
 
 
 
+# Setup the virtual machine
 
-
-<img src="Extra/Pingall-Total.png" alt="wid" style="width:30%;" />
-
-
-
-<img src="Extra/TCP_total.png" alt="wi" style="width:30%;" />
-<img src="Extra/UDP_total.png" alt="wi" style="width:48%;" />
-
-
-
-## Setup the virtual machine
-
+1. follow the instruction here to install mininet on a virtual machine: https://www.granelli-lab.org/researches/relevant-projects/comnetsemu-labs
+2. Clone the repository in the virtual machine:
+```bash
+git clone
 
 
 
