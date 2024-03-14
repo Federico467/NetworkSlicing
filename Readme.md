@@ -24,6 +24,8 @@ The goal of this project is to develop a method for network slicing that allows 
 
 
 The network is composed of 5 switches and 8 hosts, with the following topology:
+
+
 <img src="images/Topology.jpg" alt="width" style="width:80%;" />
 
 
