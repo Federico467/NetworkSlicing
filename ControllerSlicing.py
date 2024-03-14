@@ -20,24 +20,40 @@ class NetworkSlicing(app_manager.RyuApp):
             1: {"00:00:00:00:00:01": 1,
                 "00:00:00:00:00:02": 2,
                 "00:00:00:00:00:03": 2,
+                "00:00:00:00:00:04": 4,
                 "00:00:00:00:00:05": 4,
-                "00:00:00:00:00:06": 3
+                "00:00:00:00:00:06": 3,
+                "00:00:00:00:00:07": 3
             },
             2: {"00:00:00:00:00:01": 2,
                 "00:00:00:00:00:02": 1,
-                "00:00:00:00:00:03": 3
+                "00:00:00:00:00:03": 3,
+                "00:00:00:00:00:04": 2,
+                "00:00:00:00:00:05": 2,
+                "00:00:00:00:00:06": 4,
+                "00:00:00:00:00:07": 4
             },
             3: {"00:00:00:00:00:01": 2,
                 "00:00:00:00:00:02": 2,
-                "00:00:00:00:00:03": 1
-            },
-            4: {"00:00:00:00:00:04": 1,
-                "00:00:00:00:00:05": 2,
+                "00:00:00:00:00:03": 1,
+                "00:00:00:00:00:04": 3,
+                "00:00:00:00:00:05": 3,
                 "00:00:00:00:00:06": 3,
+                "00:00:00:00:00:07": 3
+            },
+            4: {"00:00:00:00:00:01": 3,
+                "00:00:00:00:00:02": 3,
+                "00:00:00:00:00:03": 4,
+                "00:00:00:00:00:04": 1,
+                "00:00:00:00:00:05": 2,
+                "00:00:00:00:00:06": 5,
                 "00:00:00:00:00:07": 5
             },
-            5: {"00:00:00:00:00:04": 5,
-                "00:00:00:00:00:05": 4,
+            5: {"00:00:00:00:00:01": 3,
+                "00:00:00:00:00:02": 3,
+                "00:00:00:00:00:03": 3,
+                "00:00:00:00:00:04": 5,
+                "00:00:00:00:00:05": 5,
                 "00:00:00:00:00:06": 1,
                 "00:00:00:00:00:07": 2
             }
@@ -104,22 +120,25 @@ class NetworkSlicing(app_manager.RyuApp):
             return
         '''   
 
-        #this discards packets arriving from different flows
-        out_port = 999
-        if dpid in self.portToPortSlicing and in_port in self.portToPortSlicing[dpid]:
-            out_port = self.portToPortSlicing[dpid][in_port]
-           # print("dpid:", dpid)
-           # print("in_port:", in_port)
-           # print("out_port:", out_port)
-        if out_port == 999:
+        dest=packet.Packet(msg.data).get_protocol(ethernet.ethernet).dst
+
+        #discarding LLDP packets
+        if packet.Packet(msg.data).get_protocol(ethernet.ethernet).ethertype == ether_types.ETH_TYPE_LLDP:
             return
+        
+        if dest in self.portToPortSlicing[dpid]:
+            out_port = self.portToPortSlicing[dpid][dest]
+            print("Packet in: ", dest, " to ", out_port)
+            match = parser.OFPMatch(eth_dst=dest)
+            print("Match: ", match)
+            actions = [parser.OFPActionOutput(out_port)]
+            print("Actions: ", actions)
 
-        actions = [parser.OFPActionOutput(out_port)]
-        match = parser.OFPMatch(in_port=in_port)
 
-        self.add_flow(datapath, 1, match, actions)  # Add flow entry to the switch
-        self.send_packet(datapath, in_port, actions, msg) # Send the packet out to the switch
-
+            self.add_flow(datapath, 1, match, actions)  # Add flow entry to the switch
+            self.send_packet(datapath, in_port, actions, msg) # Send the packet out to the switch
+        else:
+            out_port = datapath.ofproto.OFPP_FLOOD
 
 
 

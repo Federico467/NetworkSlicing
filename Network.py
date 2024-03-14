@@ -27,13 +27,13 @@ class MyTopo(Topo):
 
         
         # Add links, hosts to switches have infinite bandwith
-        self.addLink('s1', 'h1', port1=1, port2=6, **linkHosts)
-        self.addLink('s2', 'h2', port1=1, port2=6, **linkHosts)
-        self.addLink('s3', 'h3', port1=1, port2=6, **linkHosts)
-        self.addLink('s4', 'h4', port1=1, port2=6, **linkHosts)
-        self.addLink('s4', 'h5', port1=2, port2=6, **linkHosts)
-        self.addLink('s5', 'h6', port1=1, port2=6, **linkHosts)
-        self.addLink('s5', 'h7', port1=2, port2=6, **linkHosts)
+        self.addLink('s1', 'h1', port1=1, port2=1, **linkHosts)
+        self.addLink('s2', 'h2', port1=1, port2=1, **linkHosts)
+        self.addLink('s3', 'h3', port1=1, port2=1, **linkHosts)
+        self.addLink('s4', 'h4', port1=1, port2=1, **linkHosts)
+        self.addLink('s4', 'h5', port1=2, port2=1, **linkHosts)
+        self.addLink('s5', 'h6', port1=1, port2=1, **linkHosts)
+        self.addLink('s5', 'h7', port1=2, port2=1, **linkHosts)
         
         # Add links between switches
         self.addLink('s1', 's2', port1=2, port2=2, **linkSwitches)
