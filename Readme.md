@@ -11,7 +11,7 @@
 - [Scenario 1 - Default](#scenario-1---default)
 - [Scenario 2 - Lower](#scenario-2---Lower)
 - [Scenario 3 - Upper](#scenario-1---Upper)
-- [Scenario 4 - Total](#scenario-1---Other)
+- [Scenario 4 - Other](#scenario-1---Other)
 - [Setup the virtual machine](#Setup-the-virtual-machine)
 - [Run the demo](#Run-the-demo)
 - [Other resources](#Other-resources)
@@ -29,12 +29,14 @@ The network is composed of 5 switches and 8 hosts, with the following topology:
 
 # Scenario 1 - Default
 Orange = 8Mbps, Red = 2Mbps, Green = 4Mbps
+
 <img src="images/DefaultScenario.jpg" alt="width" style="width:80%;" /> 
 
 
 
 # Scenario 2 - Lower
 Red = 2Mbps, Green = 4Mbps
+
 <img src="images/Lower.jpg" alt="width" style="width:80%;" /> 
 
 
@@ -42,6 +44,7 @@ Red = 2Mbps, Green = 4Mbps
 
 # Scenario 3 - Upper
 Orange = 8Mbps
+
 <img src="images/Upper.jpg" alt="width" style="width:80%;" /> 
 
 
@@ -49,6 +52,7 @@ Orange = 8Mbps
 
 # Scenario 4 - Other
 Purple= 10Mbps
+
 <img src="images/Other.jpg" alt="width" style="width:80%;" /> 
 
 
