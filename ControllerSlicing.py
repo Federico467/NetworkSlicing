@@ -16,7 +16,7 @@ class NetworkSlicing(app_manager.RyuApp):
         super(NetworkSlicing, self).__init__(*args, **kwargs)
 
         # Define the port to port mapping
-        self.portToPortSlicing = {
+        self.MacDestToPort = {
             1: {"00:00:00:00:00:01": 1,
                 "00:00:00:00:00:02": 2,
                 "00:00:00:00:00:03": 2,
@@ -126,8 +126,8 @@ class NetworkSlicing(app_manager.RyuApp):
         if packet.Packet(msg.data).get_protocol(ethernet.ethernet).ethertype == ether_types.ETH_TYPE_LLDP:
             return
         
-        if dest in self.portToPortSlicing[dpid]:
-            out_port = self.portToPortSlicing[dpid][dest]
+        if dest in self.MacDestToPort[dpid]:
+            out_port = self.MacDestToPort[dpid][dest]
             print("Packet in: ", dest, " to ", out_port)
             match = parser.OFPMatch(eth_dst=dest)
             print("Match: ", match)
