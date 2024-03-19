@@ -20,7 +20,7 @@ sudo ovs-vsctl -- \
 set port s3-eth1 qos=@newqos -- \
 set port s3-eth3 qos=@newqos -- \
 --id=@newqos create QoS type=linux-htb \
-other-config:max-rate=10000000 \
+other-config:max-rate=10000000000 \
 queues:34=@1q -- \
 --id=@1q create queue other-config:min-rate=100000 other-config:max-rate=10000000
 
@@ -33,7 +33,7 @@ sudo ovs-vsctl -- \
 set port s4-eth1 qos=@newqos -- \
 set port s4-eth4 qos=@newqos -- \
 --id=@newqos create QoS type=linux-htb \
-other-config:max-rate=10000000 \
+other-config:max-rate=10000000000 \
 queues:34=@1q -- \
 --id=@1q create queue other-config:min-rate=100000 other-config:max-rate=10000000
 
@@ -43,33 +43,18 @@ echo 'Slices Done'
 echo ' ------------------------------------------------- '
 
 # [SWITCH 1]
-sudo ovs-ofctl add-flow s1 ip,priority=65500,in_port=1,idle_timeout=0,actions=drop
-sudo ovs-ofctl add-flow s1 ip,priority=65500,in_port=2,idle_timeout=0,actions=drop
-sudo ovs-ofctl add-flow s1 ip,priority=65500,in_port=3,idle_timeout=0,actions=drop
-sudo ovs-ofctl add-flow s1 ip,priority=65500,in_port=4,idle_timeout=0,actions=drop
+
 
 
 # [SWITCH 2]
-sudo ovs-ofctl add-flow s2 ip,priority=65500,in_port=1,idle_timeout=0,actions=drop
-sudo ovs-ofctl add-flow s2 ip,priority=65500,in_port=2,idle_timeout=0,actions=drop
-sudo ovs-ofctl add-flow s2 ip,priority=65500,in_port=3,idle_timeout=0,actions=drop
-sudo ovs-ofctl add-flow s2 ip,priority=65500,in_port=4,idle_timeout=0,actions=drop
+
 
 # [SWITCH 3]
-sudo ovs-ofctl add-flow s3 ip,priority=65500,in_port=1,idle_timeout=0,actions=set_queue:34,output:3
-sudo ovs-ofctl add-flow s3 ip,priority=65500,in_port=2,idle_timeout=0,actions=drop
-sudo ovs-ofctl add-flow s3 ip,priority=65500,in_port=3,idle_timeout=0,actions=set_queue:34,output:1
+sudo ovs-ofctl add-flow s3 ip,priority=65500,nw_src=10.0.0.3,nw_dst=10.0.0.4,idle_timeout=0,actions=set_queue:34,normal
+sudo ovs-ofctl add-flow s3 ip,priority=65500,nw_src=10.0.0.4,nw_dst=10.0.0.3,idle_timeout=0,actions=set_queue:34,normal
 
 # [SWITCH 4]
-sudo ovs-ofctl add-flow s4 ip,priority=65500,in_port=1,idle_timeout=0,actions=set_queue:34,output:4
-sudo ovs-ofctl add-flow s4 ip,priority=65500,in_port=2,idle_timeout=0,actions=drop
-sudo ovs-ofctl add-flow s4 ip,priority=65500,in_port=3,idle_timeout=0,actions=drop
-sudo ovs-ofctl add-flow s4 ip,priority=65500,in_port=4,idle_timeout=0,actions=set_queue:34,output:1
-sudo ovs-ofctl add-flow s4 ip,priority=65500,in_port=5,idle_timeout=0,actions=drop
+sudo ovs-ofctl add-flow s4 ip,priority=65500,nw_src=10.0.0.3,nw_dst=10.0.0.4,idle_timeout=0,actions=set_queue:34,normal
+sudo ovs-ofctl add-flow s4 ip,priority=65500,nw_src=10.0.0.4,nw_dst=10.0.0.3,idle_timeout=0,actions=set_queue:34,normal
 
 # [SWITCH 5]
-sudo ovs-ofctl add-flow s5 ip,priority=65500,in_port=1,idle_timeout=0,actions=drop
-sudo ovs-ofctl add-flow s5 ip,priority=65500,in_port=2,idle_timeout=0,actions=drop
-sudo ovs-ofctl add-flow s5 ip,priority=65500,in_port=3,idle_timeout=0,actions=drop
-sudo ovs-ofctl add-flow s5 ip,priority=65500,in_port=4,idle_timeout=0,actions=drop
-sudo ovs-ofctl add-flow s5 ip,priority=65500,in_port=5,idle_timeout=0,actions=drop

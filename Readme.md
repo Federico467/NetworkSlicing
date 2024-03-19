@@ -32,14 +32,14 @@ The network is composed of 5 switches and 8 hosts, with the following topology:
 # Scenario 1 - Default
 Orange = 8Mbps, Red = 2Mbps, Green = 4Mbps
 
-<img src="images/DefaultScenario.jpg" alt="width" style="width:80%;" /> 
+<img src="images/DefaultScenarioNew.jpg" alt="width" style="width:80%;" /> 
 
 
 
 # Scenario 2 - Lower
 Red = 2Mbps, Green = 4Mbps
 
-<img src="images/Lower.jpg" alt="width" style="width:80%;" /> 
+<img src="images/LowerNew.jpg" alt="width" style="width:80%;" /> 
 
 
 

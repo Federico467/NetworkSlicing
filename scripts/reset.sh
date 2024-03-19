@@ -2,7 +2,9 @@
 
 sudo ovs-ofctl del-flows s1 
 sudo ovs-ofctl del-flows s2
-sudo ovs-ofctl del-flows s3 
+sudo ovs-ofctl del-flows s3
+sudo ovs-ofctl del-flows s4
+sudo ovs-ofctl del-flows s5
 
 sudo ovs-vsctl del-port s1 s1-eth1 -- \
 add-port s1 s1-eth1

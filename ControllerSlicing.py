@@ -123,6 +123,7 @@ class NetworkSlicing(app_manager.RyuApp):
         dest=packet.Packet(msg.data).get_protocol(ethernet.ethernet).dst
 
         #discarding LLDP packets
+        
         if packet.Packet(msg.data).get_protocol(ethernet.ethernet).ethertype == ether_types.ETH_TYPE_LLDP:
             return
         
