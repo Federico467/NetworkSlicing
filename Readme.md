@@ -23,7 +23,7 @@
 The goal of this project is to develop a method for network slicing that allows for flexible activation and deactivation of network slices through either a command line interface (CLI) launching bash scripts. To achieve this, 4 different scenarios have been proposed, all using the same network structure.
 
 
-The network is composed of 5 switches and 8 hosts, with the following topology:
+The network is composed of 5 switches and 7 hosts, with the following topology:
 
 
 <img src="images/Topology.jpg" alt="width" style="width:80%;" />
