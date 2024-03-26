@@ -15,7 +15,7 @@ class NetworkSlicing(app_manager.RyuApp):
     def __init__(self, *args, **kwargs):
         super(NetworkSlicing, self).__init__(*args, **kwargs)
 
-        # Define the port to port mapping
+        # Define the mapping of MAC addresses to ports in the network
         self.MacDestToPort = {
             1: {"00:00:00:00:00:01": 1,
                 "00:00:00:00:00:02": 2,
@@ -113,20 +113,16 @@ class NetworkSlicing(app_manager.RyuApp):
         in_port = msg.match['in_port']
         dpid = datapath.id
 
-        '''
-        eth = packet.Packet(msg.data).get_protocol(ethernet.ethernet)
-        if eth.ethertype == ether_types.ETH_TYPE_LLDP:
-            # ignore lldp packet
-            return
-        '''   
-
+   
         dest=packet.Packet(msg.data).get_protocol(ethernet.ethernet).dst
 
         #discarding LLDP packets
         
         if packet.Packet(msg.data).get_protocol(ethernet.ethernet).ethertype == ether_types.ETH_TYPE_LLDP:
-            return
+            return #discovery packets are not handled
         
+
+
         if dest in self.MacDestToPort[dpid]:
             out_port = self.MacDestToPort[dpid][dest]
             print("Packet in: ", dest, " to ", out_port)
@@ -136,8 +132,10 @@ class NetworkSlicing(app_manager.RyuApp):
             print("Actions: ", actions)
 
 
-            self.add_flow(datapath, 1, match, actions)  # Add flow entry to the switch
+
             self.send_packet(datapath, in_port, actions, msg) # Send the packet out to the switch
+            self.add_flow(datapath, 1, match, actions)  # Add flow entry to the switch
+            
         else:
             out_port = datapath.ofproto.OFPP_FLOOD
 

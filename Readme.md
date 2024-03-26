@@ -93,9 +93,9 @@ cd Networking_2_Project/scripts
 ```bash
 ./Default.sh
 ```
-4. To deactivate the network slices run:
+4. To activate the Lower slices run:
 ```bash
-./reset.sh
+./Lower.sh
 ```
 
 
