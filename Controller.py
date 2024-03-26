@@ -75,6 +75,7 @@ class NetworkSlicing(app_manager.RyuApp):
 
 
     def send_packet(self, datapath, in_port, actions, msg):
+
         data = None
         ofproto = datapath.ofproto
         parser = datapath.ofproto_parser
@@ -83,10 +84,10 @@ class NetworkSlicing(app_manager.RyuApp):
         if msg.buffer_id == ofproto.OFP_NO_BUFFER:
             data = msg.data
         
-        out = parser.OFPPacketOut(datapath=datapath, buffer_id=msg.buffer_id,
+        packet_out = parser.OFPPacketOut(datapath=datapath, buffer_id=msg.buffer_id,
                                   in_port=in_port, actions=actions, data=data)
         
-        datapath.send_msg(out)
+        datapath.send_msg(packet_out)
 
 
 
@@ -103,6 +104,11 @@ class NetworkSlicing(app_manager.RyuApp):
         mod = parser.OFPFlowMod(datapath=datapath, priority=priority,
                                 match=match, instructions=inst)
         datapath.send_msg(mod)
+
+
+
+
+
 
     @set_ev_cls(ofp_event.EventOFPPacketIn, MAIN_DISPATCHER)
     def _packet_in_handler(self, ev):
@@ -124,10 +130,13 @@ class NetworkSlicing(app_manager.RyuApp):
 
 
         if dest in self.MacDestToPort[dpid]:
+
             out_port = self.MacDestToPort[dpid][dest]
             print("Packet in: ", dest, " to ", out_port)
+            
             match = parser.OFPMatch(eth_dst=dest)
             print("Match: ", match)
+
             actions = [parser.OFPActionOutput(out_port)]
             print("Actions: ", actions)
 
@@ -137,7 +146,7 @@ class NetworkSlicing(app_manager.RyuApp):
             self.add_flow(datapath, 1, match, actions)  # Add flow entry to the switch
             
         else:
-            out_port = datapath.ofproto.OFPP_FLOOD
+            out_port = ofproto_v1_3.OFPP_CONTROLLER
 
 
 
